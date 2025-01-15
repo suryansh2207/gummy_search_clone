@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto py-6 px-4">
+    <!-- Header Section -->
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h1 class="text-3xl font-bold">{{ audience.name }}</h1>
+        <p class="mt-2 text-gray-600">{{ audience.description or 'No description available' }}</p>
+        
+        <div class="mt-4 flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full">
+                {{ '{:,}'.format(audience.subscribers) if audience.subscribers else '0' }} subscribers
+            </span>
+            {% if audience.theme %}
+            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full">
+                {{ audience.theme }}
+            </span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Trending Topics -->
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h2 class="text-2xl font-bold mb-4">Trending Topics</h2>
+        {% if audience_data and audience_data.trending_topics %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {% for topic in audience_data.trending_topics %}
+            <div class="border rounded-lg p-4">
+                <h3 class="font-semibold text-lg">{{ topic.name }}</h3>
+                <p class="text-gray-600">{{ topic.posts or 0 }} posts</p>
+                <p class="text-indigo-600">{{ topic.engagement or 0 }} engagements</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-gray-500">No trending topics available</p>
+        {% endif %}
+    </div>
+
+    <!-- Theme Analysis -->
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h2 class="text-2xl font-bold mb-4">Discussion Themes</h2>
+        
+        <!-- Hot Discussions -->
+        {% if audience_data and audience_data.themes and audience_data.themes.hot_discussions %}
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold mb-3">Hot Discussions</h3>
+            <div class="space-y-4">
+                {% for discussion in audience_data.themes.hot_discussions %}
+                <div class="border-l-4 border-indigo-500 pl-4">
+                    <p class="font-medium">{{ discussion.title }}</p>
+                    <p class="text-sm text-gray-600">{{ discussion.engagement or 0 }} engagements</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <p class="text-gray-500">No hot discussions available</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

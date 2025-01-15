@@ -1,0 +1,89 @@
+{# templates/audiences/trending.html #}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-900">Trending Subreddits</h2>
+        <p class="mt-2 text-lg text-gray-600">Explore fast-growing subreddit communities.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {% for audience in audiences %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900">{{ audience.name }}</h3>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        🔥 Trending
+                    </span>
+                </div>
+                
+                <p class="text-sm font-medium text-indigo-600">r/{{ audience.subreddit }}</p>
+                
+                <div class="mt-4 space-y-2">
+                    {% if audience.subscribers %}
+                    <div class="flex items-center text-sm text-gray-500">
+                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zM6 8a2 2 0 11-4 0 2 2 0 014 0zM1.49 15.326a.78.78 0 01-.358-.442 3 3 0 014.308-3.516 6.484 6.484 0 00-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 01-2.07-.655zM16.44 15.98a4.97 4.97 0 002.07-.654.78.78 0 00.357-.442 3 3 0 00-4.308-3.517 6.484 6.484 0 011.907 3.96 2.32 2.32 0 01-.026.654zM18 8a2 2 0 11-4 0 2 2 0 014 0zM5.304 16.19a.844.844 0 01-.277-.71 5 5 0 019.947 0 .843.843 0 01-.277.71A6.975 6.975 0 0110 18a6.974 6.974 0 01-4.696-1.81z" />
+                        </svg>
+                        {{ audience.subscribers | number_format }} subscribers
+                    </div>
+                    {% endif %}
+
+                    {% if audience.growth_rate %}
+                    <div class="flex items-center text-sm text-green-600">
+                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                        </svg>
+                        +{{ "%.1f"|format(audience.growth_rate) }}% this week
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="mt-4 flex flex-wrap gap-2">
+                    {% if audience.theme %}
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {{ audience.theme }}
+                    </span>
+                    {% endif %}
+                    {% if audience.topic %}
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        {{ audience.topic }}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+async function saveAudience(audience) {
+    try {
+        const response = await fetch('/api/save-audience', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(audience)
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to save audience');
+        }
+        
+        // Show success notification
+        alert('Audience saved successfully!');
+        
+    } catch (error) {
+        // Show error notification
+        alert(error.message);
+    }
+}
+</script>
+{% endblock %}
+{% endblock %}

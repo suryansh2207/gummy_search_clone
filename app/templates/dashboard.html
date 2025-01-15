@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - GummySearch Clone{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
+    
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold mb-4">Your Audiences</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for audience in audiences %}
+            <div class="border rounded-lg p-4">
+                <h3 class="text-lg font-medium">{{ audience.name }}</h3>
+                <p class="text-sm text-gray-500">r/{{ audience.subreddit }}</p>
+                <div class="mt-2">
+                    <span class="text-sm text-gray-600">{{ audience.subscribers }} subscribers</span>
+                </div>
+                <a href="{{ url_for('audience.get_audience', id=audience.id) }}" 
+                   class="mt-2 inline-block text-indigo-600 hover:text-indigo-800">
+                    View Details
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-xl font-semibold mb-4">Your Lists</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for list in lists %}
+            <div class="border rounded-lg p-4">
+                <h3 class="text-lg font-medium">{{ list.name }}</h3>
+                <p class="text-sm text-gray-500">{{ list.audiences|length }} audiences</p>
+                <a href="{{ url_for('lists.detail', id=list.id) }}"
+                   class="mt-2 inline-block text-indigo-600 hover:text-indigo-800">
+                    View List
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

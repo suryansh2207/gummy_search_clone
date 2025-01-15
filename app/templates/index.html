@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home-container">
+    <section class="hero">
+        <h1 class="text-4xl font-bold">Discover Reddit Audiences</h1>
+        <p class="mt-4 text-xl text-gray-600">Find and analyze the perfect subreddit communities for your marketing needs</p>
+        {% if current_user.is_authenticated %}
+            <div class="mt-8">
+                <a href="{{ url_for('main.discover') }}" 
+                   class="px-8 py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-lg font-semibold">
+                    Discover Audiences
+                </a>
+            </div>
+        {% else %}
+            <div class="mt-8">
+                <a href="{{ url_for('auth.register') }}" 
+                   class="px-8 py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-lg font-semibold">
+                    Get Started
+                </a>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="quick-stats mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="stat-card bg-white p-6 rounded-lg shadow">
+            <div class="text-3xl font-bold text-indigo-600">{{ stats.saved_count }}</div>
+            <div class="text-gray-600">Saved Audiences</div>
+        </div>
+        <div class="stat-card bg-white p-6 rounded-lg shadow">
+            <div class="text-3xl font-bold text-indigo-600">{{ stats.curated_count }}</div>
+            <div class="text-gray-600">Curated Selections</div>
+        </div>
+        <div class="stat-card bg-white p-6 rounded-lg shadow">
+            <div class="text-3xl font-bold text-indigo-600">{{ stats.trending_count }}</div>
+            <div class="text-gray-600">Trending Communities</div>
+        </div>
+    </section>
+
+    <section class="features mt-12">
+        <h2 class="text-2xl font-bold mb-6">Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="feature-card bg-white p-6 rounded-lg shadow">
+                <h3 class="text-xl font-semibold">Save & Organize</h3>
+                <p class="mt-2 text-gray-600">Create your personal collection of relevant subreddit audiences</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow">
+                <h3 class="text-xl font-semibold">Analyze Trends</h3>
+                <p class="mt-2 text-gray-600">Track engagement and discover trending topics in your audiences</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow">
+                <h3 class="text-xl font-semibold">Monitor Growth</h3>
+                <p class="mt-2 text-gray-600">Keep track of subscriber growth and community engagement</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

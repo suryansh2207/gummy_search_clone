@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-8">
+    <div class="mb-8">
+        <input type="text" 
+               id="searchInput" 
+               placeholder="Search subreddits..." 
+               class="w-full p-4 text-lg border rounded-lg shadow-sm"
+               onkeyup="handleSearch(event)">
+    </div>
+    
+    <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Results will appear here -->
+    </div>
+</div>
+
+<script>
+let searchTimeout;
+
+function handleSearch(event) {
+    clearTimeout(searchTimeout);
+    const query = event.target.value;
+    
+    if (query.length < 2) return;
+    
+    searchTimeout = setTimeout(() => {
+        searchSubreddits(query);
+    }, 500);
+}
+
+async function searchSubreddits(query) {
+    try {
+        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        displayResults(data);
+    } catch (error) {
+        console.error('Search failed:', error);
+    }
+}
+
+function displayResults(results) {
+    const container = document.getElementById('results');
+    container.innerHTML = '';
+    
+    results.forEach(subreddit => {
+        const card = document.createElement('div');
+        card.className = 'bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow';
+        card.innerHTML = `
+            <h3 class="text-xl font-semibold mb-2">${subreddit.title}</h3>
+            <p class="text-sm text-indigo-600 mb-2">r/${subreddit.name}</p>
+            <p class="text-sm text-gray-600 mb-4">${subreddit.subscribers.toLocaleString()} subscribers</p>
+            <button onclick="saveSubreddit('${subreddit.name}')"
+                    class="w-full py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                Save Subreddit
+            </button>
+        `;
+        container.appendChild(card);
+    });
+}
+
+async function saveSubreddit(subredditName) {
+    try {
+        const response = await fetch('/api/audiences', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                subreddit: subredditName,
+                category: 'saved'
+            })
+        });
+        
+        if (response.ok) {
+            alert('Subreddit saved successfully!');
+        } else {
+            alert('Failed to save subreddit');
+        }
+    } catch (error) {
+        alert('Error saving subreddit');
+    }
+}
+</script>
+{% endblock %}

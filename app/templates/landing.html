@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+    <div class="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl font-extrabold sm:text-5xl md:text-6xl">
+                Discover Reddit Audiences
+            </h1>
+            <p class="mt-3 max-w-md mx-auto text-xl sm:text-2xl md:mt-5 md:max-w-3xl">
+                Find, analyze, and track the perfect subreddit communities for your marketing needs.
+            </p>
+            <div class="mt-10">
+                <a href="{{ url_for('auth.register') }}" 
+                   class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-bold mb-4">Track Communities</h3>
+            <p class="text-gray-600">Monitor growth and engagement of your favorite subreddits.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-bold mb-4">Analyze Content</h3>
+            <p class="text-gray-600">Get insights into trending topics and discussions.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-bold mb-4">Discover Opportunities</h3>
+            <p class="text-gray-600">Find new communities matching your interests.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

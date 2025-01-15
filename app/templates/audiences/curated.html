@@ -1,0 +1,33 @@
+{# templates/audiences/curated.html #}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Curated Audiences</h1>
+    
+    {% for category, audiences in categories.items() %}
+    <div class="mb-12">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-6">{{ category }}</h2>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {% for audience in audiences %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-900">r/{{ audience.subreddit }}</h3>
+                    <p class="mt-2 text-sm text-gray-600 line-clamp-2">{{ audience.description }}</p>
+                    
+                    <div class="mt-4 flex items-center text-sm text-gray-500">
+                        <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 9a3 3 0 100-6 3 3 0 000 6z"/>
+                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h10a3 3 0 013 3v5a.997.997 0 01-.293.707zM14 6a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                        </svg>
+                        {{ audience.subscribers | number_format }} subscribers
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

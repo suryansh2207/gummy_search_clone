@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
+        <h2 class="text-3xl font-bold text-center">Create Account</h2>
+        <form class="mt-8 space-y-6" method="POST">
+            {{ form.csrf_token }}
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Name</label>
+                    {{ form.name(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm") }}
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Email</label>
+                    {{ form.email(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm") }}
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Password</label>
+                    {{ form.password(class="mt-1 block w-full rounded-md border-gray-300 shadow-sm") }}
+                </div>
+            </div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                Register
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

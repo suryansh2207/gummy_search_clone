@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <h1 class="text-2xl font-bold mb-4">Welcome Back{{ ', ' + current_user.username if current_user.username }}</h1>
+        
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div class="bg-indigo-50 p-4 rounded-lg">
+                <div class="text-2xl font-bold text-indigo-600">{{ stats.saved_audiences }}</div>
+                <div class="text-gray-600">Saved Audiences</div>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-lg">
+                <div class="text-2xl font-bold text-purple-600">{{ '{:,}'.format(stats.total_subscribers) }}</div>
+                <div class="text-gray-600">Total Subscribers</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Recent Audiences</h2>
+            {% for audience in stats.recent_audiences %}
+            <div class="border-b last:border-0 py-4">
+                <div class="font-medium">{{ audience.name }}</div>
+                <div class="text-sm text-gray-600">{{ '{:,}'.format(audience.subscribers or 0) }} subscribers</div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Quick Actions</h2>
+            <div class="space-y-4">
+                <a href="{{ url_for('main.discover') }}" 
+                   class="block w-full py-2 px-4 bg-indigo-600 text-white rounded text-center hover:bg-indigo-700">
+                    Discover New Audiences
+                </a>
+                <a href="{{ url_for('audience.curated_audiences') }}" 
+                   class="block w-full py-2 px-4 bg-purple-600 text-white rounded text-center hover:bg-purple-700">
+                    Browse Curated Lists
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
