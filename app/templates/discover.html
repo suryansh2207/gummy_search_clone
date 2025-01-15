@@ -23,16 +23,21 @@
     <!-- Results Section -->
     <div class="w-full max-w-7xl">
         <!-- Save All Button -->
-        <div class="mb-6 text-center">
-            <button onclick="saveAllAsAudience()"
-                    class="px-8 py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold">
+        <div class="flex justify-end mb-4">
+            <button 
+                onclick="handleSaveAll()"
+                class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                id="saveAllButton">
                 Save All as Audience
             </button>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {% for subreddit in popular_subreddits %}
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+            <div class="bg-white p-6 rounded-lg shadow-md subreddit-card"
+                 data-subreddit="{{ subreddit.name }}"
+                 data-subscribers="{{ subreddit.subscribers }}"
+                 data-description="{{ subreddit.description }}">
                 <h3 class="text-xl font-semibold mb-2">r/{{ subreddit.name }}</h3>
                 <p class="text-sm text-gray-600 mb-2">{{ '{:,}'.format(subreddit.subscribers) }} subscribers</p>
                 <p class="text-sm text-gray-600 mb-4">{{ subreddit.description[:150] }}...</p>
@@ -43,14 +48,36 @@
     {% endif %}
 </div>
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script>
 function searchInterests() {
     const interests = document.getElementById('interestInput').value;
     window.location.href = `/discover?interests=${encodeURIComponent(interests)}`;
 }
 
-async function saveAllAsAudience() {
+async function handleSaveAll() {
+    console.log('Save button clicked');
+    
     const interests = document.getElementById('interestInput').value;
+    const subredditsElements = document.querySelectorAll('.subreddit-card');
+    
+    console.log('Interests:', interests);
+    console.log('Found subreddits:', subredditsElements.length);
+    
+    if (!interests || subredditsElements.length === 0) {
+        alert('Please enter interests and ensure subreddits are loaded');
+        return;
+    }
+    
+    const subreddits = Array.from(subredditsElements).map(element => ({
+        name: element.dataset.subreddit,
+        subscribers: parseInt(element.dataset.subscribers),
+        description: element.dataset.description
+    }));
+    
+    console.log('Subreddits data:', subreddits);
+    
     try {
         const response = await fetch('/api/audiences/bulk', {
             method: 'POST',
@@ -60,7 +87,7 @@ async function saveAllAsAudience() {
             },
             body: JSON.stringify({ 
                 interests: interests,
-                subreddits: {{ popular_subreddits|tojson }}
+                subreddits: subreddits
             })
         })
         

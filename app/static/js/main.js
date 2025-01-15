@@ -78,9 +78,10 @@ async function saveAudience(audience) {
 
 function showNotification(message, type) {
     const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
+    notification.className = `fixed top-4 right-4 p-4 rounded-lg ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    } text-white`;
     notification.textContent = message;
-    
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 3000);
 }
@@ -113,5 +114,90 @@ async function saveSubreddit(subredditName) {
         }
     } catch (error) {
         alert('Error saving subreddit');
+    }
+}
+
+async function saveAllAsAudience() {
+    const interests = document.getElementById('interests').value;
+    const subredditsElements = document.querySelectorAll('.subreddit-card');
+    
+    if (!interests || subredditsElements.length === 0) {
+        showNotification('Please enter interests and select subreddits', 'error');
+        return;
+    }
+    
+    const subreddits = Array.from(subredditsElements).map(element => ({
+        name: element.dataset.subreddit,
+        subscribers: parseInt(element.dataset.subscribers),
+        description: element.dataset.description
+    }));
+
+    try {
+        const response = await fetch('/api/audiences/bulk', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                interests: interests,
+                subreddits: subreddits
+            })
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+            showNotification('Audience saved successfully!', 'success');
+            setTimeout(() => {
+                window.location.href = data.redirect || '/dashboard';
+            }, 1000);
+        } else {
+            throw new Error(data.error || 'Failed to save audience');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification(error.message, 'error');
+    }
+}
+
+async function handleSaveAll() {
+    try {
+        const interests = document.getElementById('interestInput').value;
+        const subredditsElements = document.querySelectorAll('.subreddit-card');
+        
+        if (!interests) {
+            alert('Please enter interests first');
+            return;
+        }
+        
+        const subreddits = Array.from(subredditsElements).map(element => ({
+            name: element.dataset.subreddit,
+            subscribers: parseInt(element.dataset.subscribers),
+            description: element.dataset.description
+        }));
+
+        const response = await fetch('/api/audiences/bulk', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                interests: interests,
+                subreddits: subreddits
+            })
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+            window.location.href = '/dashboard';
+        } else {
+            throw new Error(data.error || 'Failed to save audience');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message);
     }
 }

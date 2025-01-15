@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template, jsonify, request, url_for
 from flask_login import current_user, login_required
 from app.models import Audience, CuratedList
 from sqlalchemy import or_
@@ -56,11 +56,15 @@ def get_stats():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    user_audiences = Audience.query.filter_by(user_id=current_user.id).all()
-    user_lists = CuratedList.query.filter_by(user_id=current_user.id).all()
+    # Get user's audiences with proper ordering
+    user_audiences = Audience.query.filter_by(
+        user_id=current_user.id
+    ).order_by(
+        Audience.created_at.desc()
+    ).all()
+    
     return render_template('dashboard.html', 
-                         audiences=user_audiences,
-                         lists=user_lists)
+                         audiences=user_audiences)
 
 @main.route('/discover')
 @login_required
@@ -109,34 +113,43 @@ def discover():
 @main.route('/api/audiences/bulk', methods=['POST'])
 @login_required
 def save_bulk_audience():
-    data = request.get_json()
-    interests = [i.strip() for i in data.get('interests', '').split(',') if i.strip()]
-    subreddits = data.get('subreddits', [])
-    
-    # Store all subreddits
-    subreddit_names = [s.get('name') for s in subreddits if s.get('name')]
-    
-    audience = Audience(
-        name=f"Audience for {', '.join(interests)}",
-        subreddit=subreddit_names[0] if subreddit_names else None,  # Primary subreddit
-        description=f"Curated subreddits for: {', '.join(interests)}",
-        category='saved',
-        user_id=current_user.id,
-        subreddit_list=subreddit_names,  # Store all subreddits
-        theme=interests[0] if interests else None,
-        topic=', '.join(interests),
-        data={}  # Will be populated with aggregated data
-    )
-    
-    # Get initial data from all subreddits
-    reddit_service = RedditService()
-    combined_data = reddit_service.analyze_multiple_subreddits(subreddit_names)
-    audience.data = combined_data
-    
-    db.session.add(audience)
-    db.session.commit()
-    
-    return jsonify(audience.to_dict()), 201
+    try:
+        data = request.get_json()
+        interests = [i.strip() for i in data.get('interests', '').split(',') if i.strip()]
+        subreddits = data.get('subreddits', [])
+        
+        if not interests or not subreddits:
+            return jsonify({'error': 'Missing required data'}), 400
+            
+        audience = Audience(
+            name=f"Audience for {', '.join(interests)}",
+            description=f"Curated subreddits for: {', '.join(interests)}",
+            category='saved',
+            user_id=current_user.id,
+            theme=interests[0],
+            topic=', '.join(interests[1:]) if len(interests) > 1 else None,
+            subscribers=sum(s.get('subscribers', 0) for s in subreddits),
+            active_users=0,
+            subreddit_list=[{
+                'name': s['name'],
+                'subscribers': s['subscribers'],
+                'description': s['description']
+            } for s in subreddits],
+            data={
+                'interests': interests,
+                'total_subreddits': len(subreddits)
+            }
+        )
+        
+        db.session.add(audience)
+        db.session.commit()
+        
+        return jsonify({'success': True, 'redirect': '/dashboard'}), 201
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error saving audience: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @main.errorhandler(404)
 def not_found_error(error):

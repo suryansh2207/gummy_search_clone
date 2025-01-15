@@ -21,7 +21,7 @@ class Audience(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     list_id = db.Column(db.Integer, db.ForeignKey('curated_list.id'))
     websites = db.relationship('Website', backref='audience', lazy=True)
-    subreddit_list = db.Column(db.JSON)
+    subreddit_list = db.Column(db.JSON, default = list)
 
     def __init__(self, **kwargs):
         subreddits = kwargs.pop('subreddits', [])
@@ -59,7 +59,8 @@ class Audience(db.Model):
             'data': self.data,  # Updated from 'metadata' to 'data'
             'last_updated': self.last_updated.isoformat(),
             'created_at': self.created_at.isoformat(),
-            'websites': [w.to_dict() for w in self.websites]
+            'websites': [w.to_dict() for w in self.websites],
+            'subreddit_list': self.subreddit_list
         }
         return base_dict
 
