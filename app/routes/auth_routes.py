@@ -13,6 +13,7 @@ from flask_jwt_extended import (
 )
 from datetime import timedelta
 from flask_wtf.csrf import generate_csrf
+from app.forms import ProfileForm
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -67,15 +68,18 @@ def login():
 @auth.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    if request.method == 'POST':
-        current_user.name = request.form.get('name', current_user.name)
-        current_user.email = request.form.get('email', current_user.email)
-        if request.form.get('password'):
-            current_user.set_password(request.form.get('password'))
+    form = ProfileForm(obj=current_user)
+    
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.email = form.email.data
+        if form.password.data:
+            current_user.set_password(form.password.data)
         db.session.commit()
         flash('Profile updated successfully', 'success')
         return redirect(url_for('auth.profile'))
-    return render_template('auth/profile.html')
+    
+    return render_template('auth/profile.html', form=form)
 
 @auth.route('/profile', methods=['PUT'])
 @jwt_required()
