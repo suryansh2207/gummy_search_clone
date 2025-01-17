@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Audience Overview -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div class="flex justify-between items-start">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">{{ audience.name }}</h1>
+                <p class="mt-2 text-gray-600">{{ audience.description }}</p>
+            </div>
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full">
+                {{ '{:,}'.format(audience.subscribers) }} subscribers
+            </span>
+        </div>
+    </div>
+
+    <!-- Content Analysis -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Trending Topics -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Trending Topics</h2>
+            {% if audience_data.trending_topics %}
+                <div class="space-y-4">
+                    {% for topic in audience_data.trending_topics %}
+                    <div class="border-l-4 border-indigo-500 pl-4">
+                        <h3 class="font-medium">{{ topic.name }}</h3>
+                        <div class="mt-1 flex items-center gap-4 text-sm text-gray-600">
+                            <span>{{ topic.posts }} posts</span>
+                            <span>{{ '{:,}'.format(topic.engagement) }} engagement</span>
+                            <span class="{{ 'text-green-600' if topic.sentiment > 0 else 'text-red-600' }}">
+                                {{ '%.2f'|format(topic.sentiment) }} sentiment
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-500">No trending topics found</p>
+            {% endif %}
+        </div>
+
+        <!-- Theme Distribution -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Content Themes</h2>
+            {% if audience_data.themes %}
+                <div class="space-y-4">
+                    {% for theme in audience_data.themes %}
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-medium">{{ theme.theme }}</span>
+                            <span class="text-sm text-gray-600">{{ theme.posts }} posts</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-indigo-600 h-2 rounded-full" 
+                                 style="width: {{ (theme.posts / audience_data.themes[0].posts * 100)|round }}%">
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-500">No theme data available</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Discussion Themes -->
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h2 class="text-2xl font-bold mb-4">Discussion Themes</h2>
+        {% if audience_data.themes %}
+            <div class="space-y-6">
+                {% for theme in audience_data.themes %}
+                <div class="border-l-4 border-indigo-500 pl-4">
+                    <h3 class="text-lg font-semibold">{{ theme.theme }}</h3>
+                    <div class="mt-2 text-sm text-gray-600">
+                        <p>{{ theme.posts }} posts | {{ '{:,}'.format(theme.engagement) }} engagement</p>
+                        <p class="mt-2">{{ theme.summary }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-500">No discussion themes available</p>
+        {% endif %}
+    </div>
+
+    <!-- Engagement & Quality Metrics -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% if audience_data.engagement_patterns %}
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="font-semibold mb-3">Peak Activity</h3>
+            {% for period, count in audience_data.engagement_patterns.items() %}
+            <div class="flex justify-between items-center text-sm">
+                <span class="capitalize">{{ period }}</span>
+                <span>{{ '{:,}'.format(count) }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if audience_data.readability %}
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="font-semibold mb-3">Content Readability</h3>
+            <div class="text-3xl font-bold text-indigo-600">
+                {{ '%.1f'|format(audience_data.readability[0].flesch_score) }}
+            </div>
+            <p class="text-sm text-gray-600">Flesch Reading Score</p>
+        </div>
+        {% endif %}
+
+        {% if audience_data.sentiment %}
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h3 class="font-semibold mb-3">Sentiment Analysis</h3>
+            <div class="text-3xl font-bold {{ 'text-green-600' if audience_data.sentiment.overall.positive_ratio > 0.5 else 'text-red-600' }}">
+                {{ '{:.0%}'.format(audience_data.sentiment.overall.positive_ratio) }}
+            </div>
+            <p class="text-sm text-gray-600">Positive Content</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Trending Topics -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Trending Topics</h2>
+            {% if trending_data.trending_topics %}
+                <div class="space-y-4">
+                    {% for topic in trending_data.trending_topics[:10] %}
+                    <div class="border-b pb-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">{{ topic.topic }}</span>
+                            <div class="text-sm text-gray-600">
+                                <span class="mr-3">
+                                    <i class="fas fa-arrow-up"></i> {{ topic.score }}
+                                </span>
+                                <span>
+                                    <i class="fas fa-comments"></i> {{ topic.comments }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500 mt-1">
+                            Mentioned in {{ topic.count }} posts
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-500">No trending topics found</p>
+            {% endif %}
+        </div>
+
+        <!-- Theme Analysis -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Content Themes</h2>
+            {% if trending_data.theme_analysis %}
+                <div class="space-y-6">
+                    {% for theme in trending_data.theme_analysis %}
+                    <div class="border-l-4 border-indigo-500 pl-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">{{ theme.theme }}</h3>
+                            <span class="text-sm text-gray-600">{{ theme.count }} posts</span>
+                        </div>
+                        {% if theme.examples %}
+                        <div class="mt-2 space-y-2">
+                            {% for example in theme.examples[:2] %}
+                            <a href="{{ example.url }}" target="_blank" 
+                               class="block text-sm text-gray-600 hover:text-indigo-600">
+                                {{ example.title }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-500">No theme data available</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Overall Stats -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <h2 class="text-xl font-semibold mb-4">Overview</h2>
+        <div class="grid grid-cols-3 gap-4">
+            <div class="text-center">
+                <div class="text-2xl font-bold">{{ trending_data.total_posts }}</div>
+                <div class="text-gray-600">Total Posts</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">{{ trending_data.trending_topics|length }}</div>
+                <div class="text-gray-600">Trending Topics</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold">{{ trending_data.theme_analysis|length }}</div>
+                <div class="text-gray-600">Content Themes</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

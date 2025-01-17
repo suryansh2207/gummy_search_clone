@@ -11,11 +11,6 @@
             <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full">
                 {{ '{:,}'.format(audience.subscribers) if audience.subscribers else '0' }} subscribers
             </span>
-            {% if audience.theme %}
-            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full">
-                {{ audience.theme }}
-            </span>
-            {% endif %}
         </div>
     </div>
 
@@ -58,5 +53,16 @@
         <p class="text-gray-500">No hot discussions available</p>
         {% endif %}
     </div>
+
+    {% if socket_enabled %}
+    <div id="subreddit-list" data-subreddits="{{ audience.subreddit_list|tojson }}"></div>
+    <div id="posts-container">
+        {% if loading %}
+        <div class="loading-spinner">Loading posts...</div>
+        {% endif %}
+    </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/audience.js') }}"></script>
+    {% endif %}
 </div>
 {% endblock %}

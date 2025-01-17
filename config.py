@@ -7,7 +7,7 @@ load_dotenv()
 
 class Config:
     # Flask configuration
-    SECRET_KEY = os.urandom(24)
+    SECRET_KEY = 'dev'
     
     # Reddit API credentials
     REDDIT_CLIENT_ID = os.getenv('REDDIT_CLIENT_ID')
@@ -21,5 +21,5 @@ class Config:
     PERMANENT_SESSION_LIFETIME = 3600  # Session lifetime in seconds (1 hour)
 
     basedir = os.path.abspath(os.path.dirname(__file__))
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///app.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False

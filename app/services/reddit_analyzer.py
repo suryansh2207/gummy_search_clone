@@ -1,4 +1,5 @@
 from collections import Counter, defaultdict
+from flask import current_app
 from textblob import TextBlob
 import re
 import nltk
@@ -24,15 +25,38 @@ class RedditAnalyzer:
         }
 
     def analyze_content(self, posts):
-        trending = self.get_trending_topics(posts)
-        themes = self.analyze_themes(posts)
-        sentiment = self.analyze_sentiment(posts)
-        
-        return {
-            'trending_topics': trending,
-            'themes': themes,
-            'sentiment': sentiment
-        }
+        if not posts:
+            current_app.logger.error("No posts available for analysis.")
+            return {'trending_topics': [], 'themes': [], 'sentiment': {}}
+
+        try:
+            trending_topics = []
+            themes = []
+            sentiments = []
+
+            for post in posts:
+                title = getattr(post, 'title', '').lower()
+                if not title:
+                    continue
+
+                # Analyze content
+                trending_topics.append(title)  # Placeholder for your logic
+                themes.append({'title': title, 'score': post.score})
+                sentiment = TextBlob(title).sentiment.polarity
+                sentiments.append(sentiment)
+
+            current_app.logger.debug(f"Trending topics: {trending_topics}")
+            current_app.logger.debug(f"Discussion themes: {themes}")
+            current_app.logger.debug(f"Sentiments: {sentiments}")
+
+            return {
+                'trending_topics': trending_topics[:5],  # Adjust limit as needed
+                'themes': themes[:5],  # Adjust limit as needed
+                'sentiment': {'average': sum(sentiments) / len(sentiments) if sentiments else 0}
+            }
+        except Exception as e:
+            current_app.logger.error(f"Error analyzing content: {str(e)}")
+            return {'trending_topics': [], 'themes': [], 'sentiment': {}}
 
     def get_trending_topics(self, posts, min_count=2):
         word_data = defaultdict(lambda: {'count': 0, 'score': 0, 'comments': 0, 'examples': []})
@@ -83,6 +107,9 @@ class RedditAnalyzer:
                 title = post.title
                 text = post.selftext if hasattr(post, 'selftext') else ''
                 full_text = self._clean_text(f"{title} {text}")
+
+                if not full_text:
+                    continue
                 
                 # Calculate engagement
                 comments_count = len(post.comments.list())
@@ -126,14 +153,19 @@ class RedditAnalyzer:
         return processed_themes
 
     def _clean_text(self, text):
-        """Clean text while preserving meaningful content"""
-        # Remove URLs
-        text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
-        # Remove special chars but keep question marks and basic punctuation
-        text = re.sub(r'[^\w\s\?\!\.]', ' ', text)
-        # Remove extra whitespace
-        text = ' '.join(text.split())
-        return text.lower()
+        """Clean text safely"""
+        try:
+            if not text or not isinstance(text, str):
+                return ""
+            # Remove URLs    
+            text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
+            # Remove special chars but keep questions
+            text = re.sub(r'[^\w\s\?]', ' ', text)
+            # Remove extra whitespace
+            return ' '.join(text.split()).strip()
+        except Exception as e:
+            current_app.logger.error(f"Error cleaning text: {e}")
+            return ""
 
     def _extract_phrases(self, text):
         words = text.split()
