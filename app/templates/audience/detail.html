@@ -1,68 +1,71 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto py-6 px-4">
-    <!-- Header Section -->
-    <div class="bg-white shadow rounded-lg p-6 mb-6">
-        <h1 class="text-3xl font-bold">{{ audience.name }}</h1>
-        <p class="mt-2 text-gray-600">{{ audience.description or 'No description available' }}</p>
-        
-        <div class="mt-4 flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full">
-                {{ '{:,}'.format(audience.subscribers) if audience.subscribers else '0' }} subscribers
-            </span>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">{{ audience.name }}</h1>
+    
+    <!-- Audience Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div class="bg-white p-4 rounded shadow">
+            <h3 class="font-bold">Total Subreddits</h3>
+            <p class="text-2xl">{{ content.total_subreddits }}</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+            <h3 class="font-bold">Total Subscribers</h3>
+            <p class="text-2xl">{{ audience.subscribers | number_format }}</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+            <h3 class="font-bold">Weekly Posts</h3>
+            <p class="text-2xl">{{ audience.weekly_posts | number_format }}</p>
         </div>
     </div>
 
     <!-- Trending Topics -->
-    <div class="bg-white shadow rounded-lg p-6 mb-6">
-        <h2 class="text-2xl font-bold mb-4">Trending Topics</h2>
-        {% if audience_data and audience_data.trending_topics %}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {% for topic in audience_data.trending_topics %}
-            <div class="border rounded-lg p-4">
-                <h3 class="font-semibold text-lg">{{ topic.name }}</h3>
-                <p class="text-gray-600">{{ topic.posts or 0 }} posts</p>
-                <p class="text-indigo-600">{{ topic.engagement or 0 }} engagements</p>
+    <div class="bg-white p-6 rounded shadow mb-8">
+        <h2 class="text-xl font-bold mb-4">Trending Topics</h2>
+        {% if content.trending_topics %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for topic in content.trending_topics %}
+                <div class="border p-4 rounded">
+                    <h3 class="font-bold">{{ topic.topic }}</h3>
+                    <p class="text-sm text-gray-600">
+                        Mentions: {{ topic.count }} | 
+                        Score: {{ topic.score }} |
+                        Comments: {{ topic.comments }}
+                    </p>
+                    <p class="text-xs text-gray-500">r/{{ topic.subreddit }}</p>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
         {% else %}
-        <p class="text-gray-500">No trending topics available</p>
+            <div class="text-gray-500 italic">
+                Analyzing topics... This may take a moment. If no topics appear, try refreshing the page.
+            </div>
         {% endif %}
     </div>
 
     <!-- Theme Analysis -->
-    <div class="bg-white shadow rounded-lg p-6 mb-6">
-        <h2 class="text-2xl font-bold mb-4">Discussion Themes</h2>
-        
-        <!-- Hot Discussions -->
-        {% if audience_data and audience_data.themes and audience_data.themes.hot_discussions %}
-        <div class="mb-6">
-            <h3 class="text-xl font-semibold mb-3">Hot Discussions</h3>
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">Discussion Themes</h2>
+        {% if content.theme_summary %}
             <div class="space-y-4">
-                {% for discussion in audience_data.themes.hot_discussions %}
-                <div class="border-l-4 border-indigo-500 pl-4">
-                    <p class="font-medium">{{ discussion.title }}</p>
-                    <p class="text-sm text-gray-600">{{ discussion.engagement or 0 }} engagements</p>
+                {% for theme in content.theme_summary %}
+                <div class="border p-4 rounded">
+                    <h3 class="font-bold">{{ theme.theme }}</h3>
+                    <p class="text-sm text-gray-600">
+                        Posts: {{ theme.count }}
+                    </p>
+                    <div class="text-xs text-gray-500">
+                        Subreddits: {{ theme.subreddits | join(', ') }}
+                    </div>
                 </div>
                 {% endfor %}
             </div>
-        </div>
         {% else %}
-        <p class="text-gray-500">No hot discussions available</p>
+            <div class="text-gray-500 italic">
+                Analyzing themes... This may take a moment. If no themes appear, try refreshing the page.
+            </div>
         {% endif %}
     </div>
-
-    {% if socket_enabled %}
-    <div id="subreddit-list" data-subreddits="{{ audience.subreddit_list|tojson }}"></div>
-    <div id="posts-container">
-        {% if loading %}
-        <div class="loading-spinner">Loading posts...</div>
-        {% endif %}
-    </div>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <script src="{{ url_for('static', filename='js/audience.js') }}"></script>
-    {% endif %}
 </div>
 {% endblock %}

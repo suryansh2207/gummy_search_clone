@@ -1,4 +1,3 @@
-{# templates/audiences/curated.html #}
 {% extends "base.html" %}
 
 {% block content %}
@@ -22,12 +21,63 @@
                         </svg>
                         {{ audience.subscribers | number_format }} subscribers
                     </div>
-
                 </div>
             </div>
             {% endfor %}
         </div>
+
+        <!-- Save Category Button -->
+        <div class="mt-4 text-right">
+            <button 
+                onclick="handleSaveCategory('{{ category }}')"
+                class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                Save "{{ category }}" as Audience
+            </button>
+        </div>
     </div>
     {% endfor %}
 </div>
+<script>
+    async function handleSaveCategory(category) {
+        console.log(`Save button clicked for category: ${category}`);
+        
+        const categoryContainer = Array.from(document.querySelectorAll('h2')).find(el => el.textContent.trim() === category);
+        if (!categoryContainer) {
+            alert('Category not found.');
+            return;
+        }
+
+        const subredditsElements = categoryContainer.nextElementSibling.querySelectorAll('.bg-white');
+        const subreddits = Array.from(subredditsElements).map(element => ({
+            name: element.querySelector('h3').textContent.slice(2),
+            description: element.querySelector('p').textContent,
+            subscribers: parseInt(element.querySelector('div > svg + span').textContent.replace(/[^\d]/g, ''))
+        }));
+
+        console.log('Subreddits data:', subreddits);
+
+        try {
+            const response = await fetch('/api/audiences/bulk', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    category: category,
+                    subreddits: subreddits
+                })
+            });
+
+            if (response.ok) {
+                alert(`Saved category "${category}" as audience!`);
+                window.location.href = '/dashboard';
+            } else {
+                alert('Error saving audience for category: ' + category);
+            }
+        } catch (error) {
+            alert('Error saving audience for category: ' + category);
+        }
+    }
+</script>
 {% endblock %}

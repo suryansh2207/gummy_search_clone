@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Audience
+from app.models import Audience,db
 from app.services.reddit_service import RedditService
 from app.extensions import db
 from sqlalchemy import or_
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
+from sqlalchemy.exc import SQLAlchemyError
 
 audience = Blueprint('audience', __name__, url_prefix='/api/audiences')
 
@@ -35,27 +36,105 @@ def list_audiences():
 @login_required
 def get_audience(id):
     try:
-        audience_obj = Audience.query.get_or_404(id)
+        audience = Audience.query.get_or_404(id)
+        
+        print("\n=== Audience Debug Info ===")
+        print(f"Audience ID: {audience.id}")
+        print(f"Audience Name: {audience.name}")
+        print(f"Subreddit List: {audience.subreddit_list}")
+        
+        if not audience.subreddit_list:
+            print("Warning: No subreddits found in audience")
+            return render_template(
+                'audience/detail.html',
+                audience=audience,
+                content={'trending_topics': [], 'theme_analysis': [], 'total_posts': 0}
+            )
+            
         reddit_service = RedditService()
+        content = {
+            'trending_topics': [],
+            'theme_analysis': [],
+            'total_posts': 0,
+            'total_subreddits': len(audience.subreddit_list)
+        }
         
-        # Get real-time data
-        audience_data = reddit_service.get_subreddit_data(audience_obj.subreddit)
+        # Debug counter for successful analyses
+        successful_analyses = 0
         
-        if audience_data:
-            # Update stats
-            audience_obj.subscribers = audience_data['stats']['subscribers']
-            audience_obj.active_users = audience_data['stats']['active_users']
-            audience_obj.last_updated = datetime.utcnow()
-            db.session.commit()
+        # Analyze each subreddit
+        for subreddit in audience.subreddit_list:
+            try:
+                print(f"\nAnalyzing subreddit: {subreddit['name']}")
+                analysis = reddit_service.get_subreddit_analysis(subreddit['name'])
+                
+                if analysis:
+                    print(f"Analysis received for {subreddit['name']}")
+                    print(f"Trending topics count: {len(analysis.get('trending_topics', []))}")
+                    print(f"Themes count: {len(analysis.get('themes', []))}")
+                    
+                    # Add trending topics with subreddit context
+                    for topic in analysis['trending_topics']:
+                        topic['subreddit'] = subreddit['name']
+                        content['trending_topics'].append(topic)
+                        
+                    # Add themes with subreddit context
+                    for theme in analysis['themes']:
+                        theme['subreddit'] = subreddit['name']
+                        content['theme_analysis'].append(theme)
+                        
+                    successful_analyses += 1
+                else:
+                    print(f"No analysis data received for {subreddit['name']}")
+            except Exception as e:
+                print(f"Error analyzing subreddit {subreddit['name']}: {e}")
+                continue
         
-        return render_template('audience/detail.html',
-                             audience=audience_obj,
-                             audience_data=audience_data or {})
+        print(f"\nAnalysis Summary:")
+        print(f"Total subreddits processed: {len(audience.subreddit_list)}")
+        print(f"Successful analyses: {successful_analyses}")
+        print(f"Total trending topics collected: {len(content['trending_topics'])}")
+        print(f"Total themes collected: {len(content['theme_analysis'])}")
+        
+        # Sort and limit trending topics by engagement score
+        if content['trending_topics']:
+            content['trending_topics'].sort(key=lambda x: x['engagement'], reverse=True)
+            content['trending_topics'] = content['trending_topics'][:20]
+        
+        # Group themes by category
+        if content['theme_analysis']:
+            from collections import defaultdict
+            theme_summary = defaultdict(lambda: {'count': 0, 'subreddits': set()})
+            for theme in content['theme_analysis']:
+                theme_summary[theme['theme']]['count'] += theme['count']
+                theme_summary[theme['theme']]['subreddits'].add(theme['subreddit'])
+            
+            # Convert theme summary to list and sort
+            content['theme_summary'] = [
+                {
+                    'theme': theme,
+                    'count': data['count'],
+                    'subreddits': list(data['subreddits'])
+                }
+                for theme, data in theme_summary.items()
+            ]
+            content['theme_summary'].sort(key=lambda x: x['count'], reverse=True)
+        else:
+            content['theme_summary'] = []
+        
+        print("\nFinal content structure:")
+        print(f"Trending topics: {len(content['trending_topics'])}")
+        print(f"Theme summary: {len(content.get('theme_summary', []))}")
+        
+        return render_template(
+            'audience/detail.html',
+            audience=audience,
+            content=content
+        )
+        
     except Exception as e:
-        print(f"Error in get_audience: {e}")
-        return render_template('audience/detail.html',
-                             audience=audience_obj,
-                             audience_data={})
+        print(f"Route error: {e}")
+        return render_template('error.html'), 500
 
 @audience.route('/', methods=['POST'])
 @jwt_required()
@@ -90,7 +169,7 @@ def update_audience(id):
     db.session.commit()
     return jsonify(audience.to_dict())
 
-@audience.route('/<int:id>', methods=['DELETE'])
+@audience.route('/del/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_audience(id):
     audience = Audience.query.get_or_404(id)
@@ -156,7 +235,7 @@ def save_subreddit():
 def curated_audiences():
     reddit_service = RedditService()
     audiences = reddit_service.get_curated_audiences()
-    
+
     # Group by category
     categories = {}
     for audience in audiences:
@@ -164,9 +243,40 @@ def curated_audiences():
         if category not in categories:
             categories[category] = []
         categories[category].append(audience)
-    
+
     return render_template('audiences/curated.html', 
-                         categories=categories)
+                           categories=categories)
+
+@audience.route('/curated/save', methods=['POST'])
+@login_required
+def save_curated_audience():
+    try:
+        data = request.json
+        category = data.get('category')
+        subreddits = data.get('subreddits', [])
+
+        if not category or not subreddits:
+            return jsonify({'error': 'Invalid input'}), 400
+
+        # Save subreddits to the database as part of the category
+        for subreddit in subreddits:
+            new_audience = Audience(
+                name=subreddit.get('name'),
+                description=subreddit.get('description'),
+                subscribers=subreddit.get('subscribers'),
+                category=category,
+                user_id=current_user.id  # Associate with the logged-in user
+            )
+            db.session.add(new_audience)
+
+        db.session.commit()
+        return jsonify({'message': f'Audience saved for category: {category}'}), 200
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return jsonify({'error': 'Database error occurred', 'details': str(e)}), 500
+    except Exception as e:
+        return jsonify({'error': 'An error occurred', 'details': str(e)}), 500
 
 @audience.route('/trending')
 @login_required

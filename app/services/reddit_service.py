@@ -11,6 +11,7 @@ import time
 import logging
 from prawcore.exceptions import RequestException, ResponseException
 import urllib3
+from prawcore import NotFound
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -25,6 +26,8 @@ from .reddit_analyzer import RedditAnalyzer
 # Download necessary NLTK data
 nltk.download('punkt')
 nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
 
 
 class RedditService:
@@ -36,40 +39,92 @@ class RedditService:
         )
         self.analyzer = RedditAnalyzer()
         self.min_request_delay = 2  # Minimum delay between requests in seconds
-
-        self.category_patterns = {
-            'news': r'news|update|announced|release',
-            'solution_requests': r'looking for|need|anyone know|recommend|suggestion',
-            'pain_points': r'problem|issue|frustrated|annoying|hate',
-            'advice_requests': r'how to|help|advice|guide|tips',
-            'ideas': r'idea|thought|concept|suggestion',
-            'money_talk': r'price|cost|worth|expensive|cheap|money|paid',
-            'opportunities': r'hiring|job|opportunity|looking to hire',
-            'self_promotion': r'i made|check out|launching|my project|i created'
+        
+        # Theme indicators dictionary
+        self.theme_indicators = {
+            'Question/Help': ['help', 'question', 'how', 'what', 'why', 'where', 'who', 'when', '?'],
+            'Discussion': ['discuss', 'opinion', 'think', 'thoughts', 'perspective', 'view'],
+            'Guide/Tutorial': ['guide', 'tutorial', 'how to', 'tips', 'advice', 'steps', 'learn'],
+            'News/Update': ['news', 'update', 'announcement', 'release', 'launched'],
+            'Showcase': ['showcase', 'created', 'made', 'built', 'finished', 'completed'],
+            'Resource': ['resource', 'tool', 'library', 'framework', 'package', 'download'],
+            'Meta': ['meta', 'subreddit', 'rules', 'moderator', 'community'],
         }
 
-    def search_subreddits(self, query):
-        if not query or not isinstance(query, str):
-            current_app.logger.error("Invalid query provided.")
-            return []
-
+    
+    def get_subreddit_analysis(self, subreddit_name):
         try:
+            print(f"\nStarting analysis for r/{subreddit_name}")
+            subreddit = self.reddit.subreddit(subreddit_name)
+            
+            print("Fetching posts...")
+            posts = list(subreddit.hot(limit=50))  # Get top 50 posts
+            print(f"Fetched {len(posts)} posts")
+            
+            # Run analysis
+            print("Analyzing trending topics...")
+            trending_topics = self.analyzer.get_trending_topics(posts)
+            print(f"Found {len(trending_topics)} trending topics")
+            
+            print("Analyzing themes...")
+            themes = self.analyzer.analyze_themes(posts)
+            print(f"Found {len(themes)} themes")
+            
+            analysis_result = {
+                'metadata': {
+                    'name': subreddit.display_name,
+                    'subscribers': subreddit.subscribers,
+                    'description': subreddit.description,
+                    'active_users': subreddit.active_user_count
+                },
+                'trending_topics': trending_topics,
+                'themes': themes,
+            }
+            
+            print(f"Analysis complete for r/{subreddit_name}")
+            return analysis_result
+            
+        except Exception as e:
+            print(f"Error analyzing subreddit r/{subreddit_name}: {e}")
+            return None
+        
+    def search_subreddit(reddit, subreddit_name, keywords, sort='new', limit=25):
+        try:
+            subreddit = reddit.subreddit(subreddit_name)
+            search_query = ' OR '.join(keywords)
+            
+            # Get posts based on sorting option
+            if sort == 'new':
+                posts = subreddit.new(limit=limit)
+            elif sort == 'hot':
+                posts = subreddit.hot(limit=limit)
+            elif sort == 'top':
+                posts = subreddit.top(limit=limit)
+            else:
+                posts = subreddit.new(limit=limit)
+                
             results = []
-            subreddits = self.reddit.subreddits.search(query.strip(), limit=10)
-
-            for subreddit in subreddits:
-                if hasattr(subreddit, 'display_name'):
+            for post in posts:
+                # Check if post contains any of the keywords
+                if any(keyword.lower() in post.title.lower() or 
+                    (post.selftext and keyword.lower() in post.selftext.lower()) 
+                    for keyword in keywords):
                     results.append({
-                        'name': subreddit.display_name,
-                        'subscribers': getattr(subreddit, 'subscribers', 0),
-                        'description': getattr(subreddit, 'description', ''),
-                        'title': getattr(subreddit, 'title', subreddit.display_name)
+                        'title': post.title,
+                        'url': f"https://reddit.com{post.permalink}",
+                        'score': post.score,
+                        'num_comments': post.num_comments,
+                        'created_utc': post.created_utc,
+                        'author': str(post.author),
+                        'is_self': post.is_self,
+                        'thumbnail': post.thumbnail if hasattr(post, 'thumbnail') else None
                     })
-                time.sleep(self.min_request_delay)  # Avoid hitting rate limits
 
             return results
+        except NotFound:
+            return []
         except Exception as e:
-            current_app.logger.error(f"Error in search_subreddits: {str(e)}")
+            print(f"Error searching subreddit: {str(e)}")
             return []
 
     def get_subreddit_info(self, name):
@@ -176,37 +231,23 @@ class RedditService:
         return categories
 
     def get_trending_topics(self, interest):
-        if not interest or not isinstance(interest, str):
-            current_app.logger.error("Invalid interest provided.")
-            return None
-
         try:
+            if not interest:
+                return None
+                
             subreddits = list(self.reddit.subreddits.search(interest, limit=5))
             trending_data = []
-
+            
             for subreddit in subreddits:
-                try:
-                    hot_posts = list(subreddit.hot(limit=10))
-                    trending_data.append({
-                        'subreddit': subreddit.display_name,
-                        'subscribers': getattr(subreddit, 'subscribers', 0),
-                        'active_users': getattr(subreddit, 'active_user_count', 0),
-                        'hot_posts': [{
-                            'title': post.title,
-                            'score': post.score,
-                            'comments': len(list(post.comments)),
-                            'url': f"https://reddit.com{post.permalink}"
-                        } for post in hot_posts]
-                    })
-                except Exception as e:
-                    current_app.logger.error(f"Error processing subreddit {subreddit.display_name}: {str(e)}")
-                    continue
-
-            return trending_data
+                posts = self.get_subreddit_posts(subreddit.display_name)
+                if posts and posts.get('data'):
+                    trending_data.extend(posts['data']['trending_topics'])
+            
+            return sorted(trending_data, key=lambda x: x['engagement'], reverse=True)[:20]
+            
         except Exception as e:
-            current_app.logger.error(f"Error fetching trending topics: {str(e)}")
+            print(f"Error getting trending topics: {e}")  # Debug
             return None
-
 
     def get_curated_audiences(self):
         categories = {
@@ -345,3 +386,32 @@ class RedditService:
             'theme_analysis': self.analyzer.analyze_themes(posts) if posts else [],
             'total_posts': len(posts)
         }
+
+    def get_subreddit_posts(self, subreddit_name):
+        try:
+            print(f"Fetching posts for r/{subreddit_name}")  # Debug
+            subreddit = self.reddit.subreddit(subreddit_name)
+            
+            # Get both hot and top posts
+            hot_posts = list(subreddit.hot(limit=25))
+            top_posts = list(subreddit.top('week', limit=25))
+            all_posts = list(set(hot_posts + top_posts))
+            
+            if not all_posts:
+                return None
+
+            # Use analyzer for trending topics and themes
+            trending_topics = self.analyzer.get_trending_topics(all_posts)
+            theme_analysis = self.analyzer.analyze_themes(all_posts)
+            
+            return {
+                'data': {
+                    'trending_topics': trending_topics,
+                    'theme_analysis': theme_analysis,
+                    'total_posts': len(all_posts)
+                }
+            }
+            
+        except Exception as e:
+            print(f"Error fetching subreddit posts: {e}")  # Debug
+            return None

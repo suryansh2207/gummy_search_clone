@@ -1,0 +1,596 @@
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:11:01 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:11:01 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:11:01 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:11:01 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - [generated in 0.00040s] ()
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - [generated in 0.00040s] ()
+2025-01-19 15:11:01 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:11:01 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:11:01 - DEBUG - sqlalchemy.engine.Engine - Row ('900404c1ed29',)
+2025-01-19 15:11:01 - DEBUG - sqlalchemy.engine.Engine - Row ('900404c1ed29',)
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:11:01 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:11:01 - ERROR - flask_migrate - Error: Can't locate revision identified by '900404c1ed29'
+2025-01-19 15:11:01 - ERROR - flask_migrate - Error: Can't locate revision identified by '900404c1ed29'
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:14:03 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:14:03 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:14:03 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:14:03 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - [generated in 0.00049s] ()
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - [generated in 0.00049s] ()
+2025-01-19 15:14:03 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:14:03 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:14:03 - DEBUG - sqlalchemy.engine.Engine - Row ('900404c1ed29',)
+2025-01-19 15:14:03 - DEBUG - sqlalchemy.engine.Engine - Row ('900404c1ed29',)
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:14:03 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:14:03 - ERROR - flask_migrate - Error: Can't locate revision identified by '900404c1ed29'
+2025-01-19 15:14:03 - ERROR - flask_migrate - Error: Can't locate revision identified by '900404c1ed29'
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:16:09 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:16:09 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:16:09 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:16:09 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - [generated in 0.00065s] ()
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - [generated in 0.00065s] ()
+2025-01-19 15:16:09 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:16:09 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:16:09 - DEBUG - sqlalchemy.engine.Engine - Row ('900404c1ed29',)
+2025-01-19 15:16:09 - DEBUG - sqlalchemy.engine.Engine - Row ('900404c1ed29',)
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:16:09 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:16:09 - ERROR - flask_migrate - Error: Can't locate revision identified by '900404c1ed29'
+2025-01-19 15:16:09 - ERROR - flask_migrate - Error: Can't locate revision identified by '900404c1ed29'
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - [generated in 0.00048s] ()
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - [generated in 0.00048s] ()
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Col ('name',)
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Col ('name',)
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Row ('alembic_version',)
+2025-01-19 15:19:31 - DEBUG - sqlalchemy.engine.Engine - Row ('alembic_version',)
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:19:31 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - [generated in 0.00048s] ()
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - [generated in 0.00048s] ()
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Col ('name',)
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Col ('name',)
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Row ('alembic_version',)
+2025-01-19 15:24:32 - DEBUG - sqlalchemy.engine.Engine - Row ('alembic_version',)
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:24:32 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - [generated in 0.00052s] ()
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - [generated in 0.00052s] ()
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Col ('name',)
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Col ('name',)
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Row ('alembic_version',)
+2025-01-19 15:26:32 - DEBUG - sqlalchemy.engine.Engine - Row ('alembic_version',)
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:26:32 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - [generated in 0.00051s] ()
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - [generated in 0.00051s] ()
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite~_%' ESCAPE '~' ORDER BY name
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Col ('name',)
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Col ('name',)
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Row ('alembic_version',)
+2025-01-19 15:27:55 - DEBUG - sqlalchemy.engine.Engine - Row ('alembic_version',)
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:27:55 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [generated in 0.00058s] ()
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [generated in 0.00058s] ()
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:28:41 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE audience_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	category VARCHAR(50) NOT NULL, 
+	created_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE audience_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	category VARCHAR(50) NOT NULL, 
+	created_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [no key 0.00100s] ()
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [no key 0.00100s] ()
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE user (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	email VARCHAR(120) NOT NULL, 
+	password_hash VARCHAR(256), 
+	created_at DATETIME, 
+	PRIMARY KEY (id), 
+	UNIQUE (email)
+)
+
+
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE user (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	email VARCHAR(120) NOT NULL, 
+	password_hash VARCHAR(256), 
+	created_at DATETIME, 
+	PRIMARY KEY (id), 
+	UNIQUE (email)
+)
+
+
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [no key 0.00107s] ()
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [no key 0.00107s] ()
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE curated_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	theme VARCHAR(50), 
+	topic VARCHAR(50), 
+	is_public BOOLEAN, 
+	created_at DATETIME, 
+	user_id INTEGER NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE curated_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	theme VARCHAR(50), 
+	topic VARCHAR(50), 
+	is_public BOOLEAN, 
+	created_at DATETIME, 
+	user_id INTEGER NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES user (id)
+)
+
+
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [no key 0.00056s] ()
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - [no key 0.00056s] ()
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:28:41 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - [generated in 0.00048s] ()
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - [generated in 0.00048s] ()
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:29:29 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE audience_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	category VARCHAR(50) NOT NULL, 
+	created_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE audience_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	category VARCHAR(50) NOT NULL, 
+	created_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - [no key 0.00098s] ()
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - [no key 0.00098s] ()
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:29:29 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - [generated in 0.00050s] ()
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - [generated in 0.00050s] ()
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:30:18 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:30:18 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:30:18 - ERROR - flask_migrate - Error: Target database is not up to date.
+2025-01-19 15:30:18 - ERROR - flask_migrate - Error: Target database is not up to date.
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - [generated in 0.00054s] ()
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - [generated in 0.00054s] ()
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:32:26 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE audience_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	category VARCHAR(50) NOT NULL, 
+	created_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE audience_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	category VARCHAR(50) NOT NULL, 
+	created_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - [no key 0.00058s] ()
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - [no key 0.00058s] ()
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:32:26 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - [generated in 0.00047s] ()
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - [generated in 0.00047s] ()
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:33:09 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:33:09 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:33:09 - ERROR - flask_migrate - Error: Target database is not up to date.
+2025-01-19 15:33:09 - ERROR - flask_migrate - Error: Target database is not up to date.
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - [generated in 0.00105s] ()
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - [generated in 0.00105s] ()
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:33:28 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE audience_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	category VARCHAR(50) NOT NULL, 
+	created_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE audience_list (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	description TEXT, 
+	category VARCHAR(50) NOT NULL, 
+	created_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - [no key 0.00068s] ()
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - [no key 0.00068s] ()
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:33:28 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - BEGIN (implicit)
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - SELECT alembic_version.version_num 
+FROM alembic_version
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - [generated in 0.00052s] ()
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - [generated in 0.00052s] ()
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Col ('version_num',)
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - PRAGMA main.table_info("alembic_version")
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - [raw sql] ()
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Col ('cid', 'name', 'type', 'notnull', 'dflt_value', 'pk')
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:35:48 - DEBUG - sqlalchemy.engine.Engine - Row (0, 'version_num', 'VARCHAR(32)', 1, None, 1)
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE user (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	email VARCHAR(120) NOT NULL, 
+	password_hash VARCHAR(256), 
+	created_at DATETIME, 
+	PRIMARY KEY (id), 
+	UNIQUE (email)
+)
+
+
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - 
+CREATE TABLE user (
+	id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	email VARCHAR(120) NOT NULL, 
+	password_hash VARCHAR(256), 
+	created_at DATETIME, 
+	PRIMARY KEY (id), 
+	UNIQUE (email)
+)
+
+
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - [no key 0.00078s] ()
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - [no key 0.00078s] ()
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - ROLLBACK
+2025-01-19 15:35:48 - INFO - sqlalchemy.engine.Engine - ROLLBACK

@@ -1,197 +1,154 @@
+# app/reddit_analyzer.py
 from collections import Counter, defaultdict
-from flask import current_app
-from textblob import TextBlob
-import re
-import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+from nltk.tokenize import sent_tokenize
+from textblob import TextBlob
+import nltk
+import re
 
 class RedditAnalyzer:
     def __init__(self):
         nltk.download('punkt')
         nltk.download('stopwords')
+        nltk.download('wordnet')
+        nltk.download('averaged_perceptron_tagger')
         
-        self.stop_words = set(stopwords.words('english')) | {'http', 'https', 'www', 'com', 'reddit'}
+        # Custom stop words that preserve important terms
+        custom_stops = set(['http', 'https', 'www', 'com', 'reddit'])
+        self.stop_words = set(stopwords.words('english')) | custom_stops
         
-        self.theme_patterns = {
-            'News': r'news|update|announced|release|launching',
-            'Solution Requests': r'looking for|need|anyone know|recommend|suggestion',
-            'Pain Points': r'problem|issue|frustrated|annoying|hate|bug|broken',
-            'Advice Requests': r'how to|help|advice|guide|tips|tutorial',
-            'Ideas': r'idea|thought|concept|suggestion|proposal',
-            'Money Talk': r'price|cost|worth|expensive|cheap|money|paid|pricing',
-            'Opportunities': r'hiring|job|opportunity|looking to hire|position',
-            'Self Promotion': r'i made|check out|launching|my project|i created|built'
+        # Theme indicators dictionary
+        self.theme_indicators = {
+            'Question/Help': ['help', 'question', 'how', 'what', 'why', 'where', 'who', 'when', '?'],
+            'Discussion': ['discuss', 'opinion', 'think', 'thoughts', 'perspective', 'view'],
+            'Guide/Tutorial': ['guide', 'tutorial', 'how to', 'tips', 'advice', 'steps', 'learn'],
+            'News/Update': ['news', 'update', 'announcement', 'release', 'launched'],
+            'Showcase': ['showcase', 'created', 'made', 'built', 'finished', 'completed'],
+            'Resource': ['resource', 'tool', 'library', 'framework', 'package', 'download'],
+            'Meta': ['meta', 'subreddit', 'rules', 'moderator', 'community'],
         }
-
-    def analyze_content(self, posts):
-        if not posts:
-            current_app.logger.error("No posts available for analysis.")
-            return {'trending_topics': [], 'themes': [], 'sentiment': {}}
-
-        try:
-            trending_topics = []
-            themes = []
-            sentiments = []
-
-            for post in posts:
-                title = getattr(post, 'title', '').lower()
-                if not title:
-                    continue
-
-                # Analyze content
-                trending_topics.append(title)  # Placeholder for your logic
-                themes.append({'title': title, 'score': post.score})
-                sentiment = TextBlob(title).sentiment.polarity
-                sentiments.append(sentiment)
-
-            current_app.logger.debug(f"Trending topics: {trending_topics}")
-            current_app.logger.debug(f"Discussion themes: {themes}")
-            current_app.logger.debug(f"Sentiments: {sentiments}")
-
-            return {
-                'trending_topics': trending_topics[:5],  # Adjust limit as needed
-                'themes': themes[:5],  # Adjust limit as needed
-                'sentiment': {'average': sum(sentiments) / len(sentiments) if sentiments else 0}
-            }
-        except Exception as e:
-            current_app.logger.error(f"Error analyzing content: {str(e)}")
-            return {'trending_topics': [], 'themes': [], 'sentiment': {}}
+    
+    def clean_text(self, text):
+        """Basic text cleaning"""
+        if not text:
+            return ""
+        # Remove URLs
+        text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
+        # Remove special characters but keep question marks
+        text = re.sub(r'[^\w\s\?]', ' ', text)
+        # Remove extra whitespace
+        text = ' '.join(text.split())
+        return text.lower()
 
     def get_trending_topics(self, posts, min_count=2):
-        word_data = defaultdict(lambda: {'count': 0, 'score': 0, 'comments': 0, 'examples': []})
+        """Extract trending topics from posts with improved processing"""
+        word_data = defaultdict(lambda: {'count': 0, 'score': 0, 'comments': 0})
         
         for post in posts:
-            # Process title and text
-            text = f"{post.title} {post.selftext if hasattr(post, 'selftext') else ''}"
-            text = self._clean_text(text)
+            # Get post title and clean it
+            title = post.title.lower()
             
-            # Get phrases
-            phrases = self._extract_phrases(text)
+            # Get post text if available
+            body = post.selftext.lower() if hasattr(post, 'selftext') else ''
             
-            # Update metrics
-            for phrase in set(phrases):
+            # Combine title and first 500 characters of body
+            combined_text = f"{title} {body[:500]}"
+            
+            # Clean text
+            cleaned_text = re.sub(r'http\S+|www\S+|https\S+', '', combined_text)
+            cleaned_text = re.sub(r'[^\w\s]', ' ', cleaned_text)
+            
+            # Extract meaningful phrases (2-3 words)
+            words = cleaned_text.split()
+            phrases = []
+            
+            # Single words
+            phrases.extend([w for w in words if len(w) > 2 
+                          and not w.isnumeric() 
+                          and w not in self.stop_words])
+            
+            # Two-word phrases
+            for i in range(len(words)-1):
+                phrase = f"{words[i]} {words[i+1]}"
+                if all(len(w) > 2 and not w.isnumeric() and w not in self.stop_words 
+                       for w in phrase.split()):
+                    phrases.append(phrase)
+            
+            # Update word data with engagement metrics
+            for phrase in set(phrases):  # Use set to avoid counting duplicates
                 word_data[phrase]['count'] += 1
                 word_data[phrase]['score'] += post.score
-                word_data[phrase]['comments'] += len(post.comments.list())
-                word_data[phrase]['examples'].append({
-                    'title': post.title,
-                    'url': f"https://reddit.com{post.permalink}",
-                    'score': post.score
-                })
+                word_data[phrase]['comments'] += post.num_comments
         
-        # Convert to list and sort
+        # Convert to list of trending topics
         trending = []
         for phrase, data in word_data.items():
             if data['count'] >= min_count:
-                engagement = (data['score'] * 0.7) + (data['comments'] * 0.3)
+                engagement_score = (data['score'] * 0.7) + (data['comments'] * 0.3)  # Weight score higher
                 trending.append({
                     'topic': phrase,
                     'count': data['count'],
                     'score': data['score'],
                     'comments': data['comments'],
-                    'engagement': engagement
+                    'engagement': engagement_score,
                 })
         
-        # Sort by engagement and return top 20
-        return sorted(trending, 
-                     key=lambda x: x['engagement'], 
-                     reverse=True)[:20]
+        # Sort by engagement score
+        trending.sort(key=lambda x: x['engagement'], reverse=True)
+        
+        # Return top 20 trending topics
+        return trending[:20]
 
     def analyze_themes(self, posts):
-        theme_data = {theme: [] for theme in self.theme_patterns}
+        """Analyze common themes in posts"""
+        theme_counts = defaultdict(int)
+        theme_posts = defaultdict(list)
         
         for post in posts:
-            try:
-                # Get post content
-                title = post.title
-                text = post.selftext if hasattr(post, 'selftext') else ''
-                full_text = self._clean_text(f"{title} {text}")
-
-                if not full_text:
-                    continue
-                
-                # Calculate engagement
-                comments_count = len(post.comments.list())
-                engagement = post.score + (comments_count * 0.3)
-                
-                # Check each theme
-                for theme, pattern in self.theme_patterns.items():
-                    if re.search(pattern, full_text, re.IGNORECASE):
-                        theme_data[theme].append({
-                            'title': title,
-                            'url': f"https://reddit.com{post.permalink}",
-                            'score': post.score,
-                            'comments': comments_count,
-                            'engagement': engagement,
-                            'sentiment': TextBlob(full_text).sentiment.polarity,
-                            'created_utc': post.created_utc
-                        })
-            except Exception as e:
-                print(f"Error processing post {post.id}: {e}")
-                continue
+            title = self.clean_text(post.title)
+            text = self.clean_text(post.selftext if hasattr(post, 'selftext') else '')
+            combined_text = f"{title} {text}"
+            
+            # Check for themes
+            matched_themes = set()
+            for theme, indicators in self.theme_indicators.items():
+                if any(indicator in combined_text for indicator in indicators):
+                    matched_themes.add(theme)
+                    
+            # If no theme matched, categorize as "Other"
+            if not matched_themes:
+                theme_counts['Other'] += 1
+                theme_posts['Other'].append({
+                    'title': post.title,
+                    'url': f"https://reddit.com{post.permalink}",
+                    'score': post.score
+                })
+            else:
+                for theme in matched_themes:
+                    theme_counts[theme] += 1
+                    theme_posts[theme].append({
+                        'title': post.title,
+                        'url': f"https://reddit.com{post.permalink}",
+                        'score': post.score
+                    })
         
-        # Process theme data
-        processed_themes = {}
-        for theme, posts in theme_data.items():
-            if posts:
-                # Sort posts by engagement
-                sorted_posts = sorted(posts, key=lambda x: x['engagement'], reverse=True)
-                
-                processed_themes[theme] = {
-                    'posts': sorted_posts[:5],  # Top 5 posts
-                    'count': len(posts),
-                    'total_engagement': sum(p['engagement'] for p in posts),
-                    'avg_sentiment': sum(p['sentiment'] for p in posts) / len(posts),
-                    'metrics': {
-                        'total_score': sum(p['score'] for p in posts),
-                        'total_comments': sum(p['comments'] for p in posts),
-                        'avg_engagement': sum(p['engagement'] for p in posts) / len(posts)
-                    }
-                }
+        # Calculate percentages and prepare results
+        total_posts = len(posts)
+        themes_analysis = []
         
-        return processed_themes
-
-    def _clean_text(self, text):
-        """Clean text safely"""
-        try:
-            if not text or not isinstance(text, str):
-                return ""
-            # Remove URLs    
-            text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
-            # Remove special chars but keep questions
-            text = re.sub(r'[^\w\s\?]', ' ', text)
-            # Remove extra whitespace
-            return ' '.join(text.split()).strip()
-        except Exception as e:
-            current_app.logger.error(f"Error cleaning text: {e}")
-            return ""
-
-    def _extract_phrases(self, text):
-        words = text.split()
-        phrases = []
+        for theme in theme_counts.keys():
+            count = theme_counts[theme]
+            theme_data = {
+                'theme': theme,
+                'count': count,
+                'percentage': round((count / total_posts) * 100, 1),
+                'examples': sorted(theme_posts[theme], 
+                                 key=lambda x: x['score'], 
+                                 reverse=True)[:3]  # Top 3 posts per theme
+            }
+            themes_analysis.append(theme_data)
         
-        # Single words
-        phrases.extend([w for w in words if len(w) > 2 and w not in self.stop_words])
-        
-        # Two-word phrases
-        for i in range(len(words)-1):
-            phrase = f"{words[i]} {words[i+1]}"
-            if all(len(w) > 2 and w not in self.stop_words for w in phrase.split()):
-                phrases.append(phrase)
-                
-        return phrases
-
-    def analyze_sentiment(self, posts):
-        sentiments = []
-        for post in posts:
-            text = f"{post.title} {post.selftext if hasattr(post, 'selftext') else ''}"
-            sentiment = TextBlob(text).sentiment
-            sentiments.append(sentiment.polarity)
-        
-        return {
-            'average': sum(sentiments) / len(sentiments) if sentiments else 0,
-            'positive': len([s for s in sentiments if s > 0]),
-            'negative': len([s for s in sentiments if s < 0]),
-            'neutral': len([s for s in sentiments if s == 0])
-        }
+        # Sort by count
+        themes_analysis.sort(key=lambda x: x['count'], reverse=True)
+        return themes_analysis

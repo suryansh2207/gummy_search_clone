@@ -17,4 +17,4 @@ class AudienceList(db.Model):
             'description': self.description,
             'category': self.category,
             'audiences': [audience.to_dict() for audience in self.audiences]
-        }
+        } 
